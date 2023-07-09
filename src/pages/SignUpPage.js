@@ -12,8 +12,15 @@ class SignUpPage extends React.Component {
     return (
       <div>
         <h1>Sign Up</h1>
-        <input type="text" placeholder="username" />
-        <input type="text" placeholder="email" />
+        <label htmlFor="username">User Name</label>
+        <input type="text"id="username" />
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" />
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" />
+        <label htmlFor="confirmPass">Confirm Password</label>
+        <input type="password" id="confirmPass" />
+        <button disabled >Sign Up</button>
       </div>
     );
   }
