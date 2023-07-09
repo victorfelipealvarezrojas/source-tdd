@@ -6,11 +6,16 @@ import React from "react";
   return <h1>Sign Up</h1>;
 }; */
 
-
 // class component tiene un metodo render que retorna un elemento de react
 class SignUpPage extends React.Component {
   render() {
-    return <h1>Sign Up</h1>;
+    return (
+      <div>
+        <h1>Sign Up</h1>
+        <input type="text" placeholder="username" />
+        <input type="text" placeholder="email" />
+      </div>
+    );
   }
 }
 
