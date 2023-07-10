@@ -89,7 +89,8 @@ describe("Sign Up Page", () => {
       const button = screen.queryByRole("button", { name: "Sign Up" });
 
       const mockFn = jest.fn();
-      axios.post = mockFn;
+      // axios.post = mockFn;
+      window.fetch = mockFn;
 
       act(() => {
         userEvent.type(userInput, "joko");
@@ -100,9 +101,9 @@ describe("Sign Up Page", () => {
       });
 
       const firstCallOfMockFunction = mockFn.mock.calls[0];
-      const body = firstCallOfMockFunction[1];
+      const body = firstCallOfMockFunction[1].body;
 
-      expect(body).toEqual({
+      expect(JSON.parse(body)).toEqual({
         username: "joko",
         email: "joko@joko.cl",
         password: "P4ssword",

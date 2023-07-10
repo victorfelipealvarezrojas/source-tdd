@@ -26,7 +26,15 @@ class SignUpPage extends React.Component {
       email,
       password,
     };
-    axios.post("http://localhost:8080/api/1.0/users", user); //http://localhost:8080/api/1.0/users
+    // axios.post("http://localhost:8080/api/1.0/users", user); //http://localhost:8080/api/1.0/users
+
+    fetch("http://localhost:8080/api/1.0/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
   };
 
   render() {
@@ -45,18 +53,10 @@ class SignUpPage extends React.Component {
           <input type="email" id="email" onChange={this.onChange} />
 
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            onChange={this.onChange}
-          />
+          <input type="password" id="password" onChange={this.onChange} />
 
           <label htmlFor="confirmPass">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPass"
-            onChange={this.onChange}
-          />
+          <input type="password" id="confirmPass" onChange={this.onChange} />
 
           <button disabled={disabled} onClick={this.submit}>
             Sign Up
