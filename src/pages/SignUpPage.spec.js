@@ -1,5 +1,8 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import SignUpPage from "./SignUpPage";
+import axios from "axios";
+import { act } from "react-dom/test-utils";
 
 describe("Sign Up Page", () => {
   describe("Layout", () => {
@@ -56,9 +59,54 @@ describe("Sign Up Page", () => {
       expect(button).toBeInTheDocument();
     });
     it("disable the button initiality", () => {
-        render(<SignUpPage />);
-        const button = screen.queryByRole("button", { name: "Sign Up" });
-        expect(button).toBeDisabled();
+      render(<SignUpPage />);
+      const button = screen.queryByRole("button", { name: "Sign Up" });
+      expect(button).toBeDisabled();
+    });
+  });
+  describe("Interaction", () => {
+    it("enable button when password and password repeat fields have same value", async () => {
+      render(<SignUpPage />);
+      const password = screen.getByLabelText("Password");
+      const passwordRepeat = screen.getByLabelText("Confirm Password");
+
+      const button = screen.queryByRole("button", { name: "Sign Up" });
+
+      act(() => {
+        userEvent.type(password, "P4ssword");
+        userEvent.type(passwordRepeat, "P4ssword");
       });
+
+      expect(button).toBeEnabled();
+    });
+
+    it("send username, email and password to backend after clicking the button", async () => {
+      render(<SignUpPage />);
+      const userInput = screen.getByLabelText("User Name");
+      const emailInput = screen.getByLabelText("Email");
+      const passwordInput = screen.getByLabelText("Password");
+      const passwordRepeatInput = screen.getByLabelText("Confirm Password");
+      const button = screen.queryByRole("button", { name: "Sign Up" });
+
+      const mockFn = jest.fn();
+      axios.post = mockFn;
+
+      act(() => {
+        userEvent.type(userInput, "joko");
+        userEvent.type(emailInput, "joko@joko.cl");
+        userEvent.type(passwordInput, "P4ssword");
+        userEvent.type(passwordRepeatInput, "P4ssword");
+        userEvent.click(button);
+      });
+
+      const firstCallOfMockFunction = mockFn.mock.calls[0];
+      const body = firstCallOfMockFunction[1];
+
+      expect(body).toEqual({
+        username: "joko",
+        email: "joko@joko.cl",
+        password: "P4ssword",
+      });
+    });
   });
 });
