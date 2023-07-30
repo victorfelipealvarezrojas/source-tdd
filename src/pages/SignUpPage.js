@@ -1,5 +1,8 @@
 import React from "react";
-import axios from "axios";
+import Input from "../components/input";
+import { withTranslation } from "react-i18next";
+import { signup } from "../api/apiCalls";
+
 // react tiene 2 tipos de componentes: de clase(class component) y funcionales(functional components)
 // functional components son mas faciles de testear
 /* const SignUpPage = () => {
@@ -9,62 +12,135 @@ import axios from "axios";
 class SignUpPage extends React.Component {
   state = {
     disabled: true,
+    username: "",
+    email: "",
+    password: "",
+    confirmPass: "",
+    apiProgress: false,
+    signUpSuccess: false,
+    errors: {
+      username: "",
+      email: "",
+      password: "",
+    },
   };
 
   onChange = (event) => {
     const { id, value } = event.target;
+    const errorCopy = { ...this.state.errors, [id]: "" };
     this.setState({
       [id]: value, // [name] es un nombre de propiedad computado
+      errors: errorCopy,
     });
   };
 
-  submit = (event) => {
+  submit = async (event) => {
     event.preventDefault();
     const { username, email, password } = this.state;
-    const user = {
+
+    const body = {
       username,
       email,
       password,
     };
-    axios.post("http://localhost:8080/api/1.0/users", user); //http://localhost:8080/api/1.0/users
+    this.setState({ apiProgress: true });
+
+    try {
+      await signup(body);
+      this.setState({ signUpSuccess: true });
+      this.setState({ apiProgress: false });
+    } catch (error) {
+      if (error.response.status === 400) {
+        this.setState({ errors: error.response.data.validationErrors });
+        this.setState({ disabled: true });
+        this.setState({ apiProgress: false });
+      }
+    }
   };
 
   render() {
+    const { t } = this.props;
     let disabled = true;
-    const { password, confirmPass } = this.state;
+    const { password, confirmPass, apiProgress, signUpSuccess, errors } =
+      this.state;
+
     if (password && confirmPass) {
       disabled = password !== confirmPass;
     }
+
+    let passwordConfirmHelp =
+      password !== confirmPass ? "Password mismatch" : "";
+
     return (
-      <div>
-        <form>
-          <h1>Sign Up</h1>
-          <label htmlFor="username">User Name</label>
-          <input type="text" id="username" onChange={this.onChange} />
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" onChange={this.onChange} />
+      <div className="container" data-testid= "signup-page">
+        {!signUpSuccess && (
+          <form className="form-content" data-testid="form-sign-up">
+            <h1>{t("SignUp")}</h1>
+            <Input
+              id="username"
+              label={t("username")}
+              type="text"
+              onChange={this.onChange}
+              help={errors.username}
+            />
 
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            onChange={this.onChange}
-          />
+            <Input
+              id="email"
+              label={t("email")}
+              type="email"
+              onChange={this.onChange}
+              help={errors.email}
+            />
 
-          <label htmlFor="confirmPass">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPass"
-            onChange={this.onChange}
-          />
+            <Input
+              id="password"
+              label={t("password")}
+              type="password"
+              onChange={this.onChange}
+              help={errors.password}
+            />
 
-          <button disabled={disabled} onClick={this.submit}>
-            Sign Up
-          </button>
-        </form>
+            <Input
+              id="confirmPass"
+              label={t("confirmPassword")}
+              type="password"
+              onChange={this.onChange}
+              help={passwordConfirmHelp}
+            />
+
+            <button
+              className={disabled || apiProgress ? "disabled" : "notDisabled"}
+              disabled={disabled || apiProgress}
+              onClick={this.submit}
+            >
+              {apiProgress && (
+                <span role="status" aria-hidden="true">
+                  {t("loading")}
+                </span>
+              )}
+              {t("SignUp")}
+            </button>
+          </form>
+        )}
+        {signUpSuccess && (
+          <div
+            style={{
+              margin: "10px auto",
+              padding: "20px",
+              border: "1px solid green ",
+              backgroundColor: "lightgreen",
+              borderRadius: "5px",
+              color: "green",
+            }}
+          >
+            Please check your e-mail to activate your account
+          </div>
+        )}
       </div>
     );
   }
 }
 
-export default SignUpPage;
+const SignUpPageWithTranslation = withTranslation()(SignUpPage);
+
+export default SignUpPageWithTranslation;

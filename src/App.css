@@ -1,38 +1,126 @@
-.App {
-  text-align: center;
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  align-items: center;
+  justify-content: center;
   background-color: #282c34;
-  min-height: 100vh;
+
+  height: 70px;
+  font-size: 20px;
+}
+
+.nav-bar a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10px;
+  transition: all 400ms;
+}
+
+.nav-bar a:hover {
+  color: #fff;
+  text-decoration: none;
+  font-size: 30px;
+  text-decoration:  underline #61dafb 22px solid;
+
+}
+
+.form-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  max-width: 80%;
 }
 
-.App-link {
+.form-content input {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 600px;
+  border-color: #d7d9df;
+}
+
+.form-content button {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 300px;
+  border-color: #d7d9df;
+  background-color: #61dafb;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+
+}
+
+label {
+  font-weight: bold;
+  font-size: 19px;
+  margin-left: 20px;
+  align-self: flex-start;
+}
+
+input:hover {
+  border-color: #61dafb;
+}
+
+button:hover {
+  background-color: #fff;
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+div > span {
+  color: red;
+  font-size: 14px;
+  margin-left: 10px;
 }
+
+form > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled {
+  background-color: #a5a3a3 !important;
+  color: #fff  !important;
+  cursor: not-allowed  !important;
+}
+
+.notDisabled {
+  background-color: #61dafb  !important;
+  color: #fff  !important;
+  cursor: pointer  !important;
+}
+
+img {
+  width: 70px;
+  transition: all 400ms;
+}
+
+img:hover{
+  width: 90px;
+  cursor: pointer;
+}
+
+.img-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+

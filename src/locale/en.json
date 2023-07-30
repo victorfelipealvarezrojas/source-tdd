@@ -1,0 +1,9 @@
+{
+    "SignUp": "Sign Up",
+    "login": "Login",
+    "username": "User Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "loading": "loading..."
+  }

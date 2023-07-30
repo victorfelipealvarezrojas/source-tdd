@@ -1,0 +1,9 @@
+{
+    "SignUp": "Registro",
+    "login": "Iniciar sesión",
+    "username": "Nombre de usuario",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "loading": "Cargando..."
+  }
